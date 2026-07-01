@@ -21,4 +21,11 @@ add_executable(
     src/Logger.h
     src/Sensor.cpp
     src/Sensor.h
+    src/FleetManager.cpp
+    src/FleetManager.h
+    src/CollisionManager.cpp
+    src/CollisionManager.h
+    src/Map.h
+    src/Point.h
+
 )

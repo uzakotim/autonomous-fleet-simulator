@@ -10,7 +10,7 @@ void Logger::log(VehicleState state) {
   file.open("telemetry.csv", std::ios::app);
 
   file << state.id << "," << state.position.x << "," << state.position.y << ","
-       << state.speed << "\n";
+       << state.speed << "," << state.status << "\n";
 
   file.close();
 }
