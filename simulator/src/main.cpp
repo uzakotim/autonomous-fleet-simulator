@@ -1,50 +1,79 @@
+#include "AStar.h"
 #include "FleetManager.h"
 #include "Logger.h"
+#include "OSMParser.h"
+
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <vector>
 
-int main() {
+namespace {
+
+std::vector<long long> collectNodeIds(const Graph &graph) {
+  std::vector<long long> ids;
+  ids.reserve(graph.getNodes().size());
+  for (const auto &[id, _] : graph.getNodes()) {
+    ids.push_back(id);
+  }
+  return ids;
+}
+
+} // namespace
+
+int main(int argc, char **argv) {
+  const std::string mapPath =
+      argc > 1 ? argv[1] : "assets/maps/sample_city.osm";
+
+  OSMParser parser;
+  if (!parser.load(mapPath)) {
+    return 1;
+  }
+
+  const Graph &graph = parser.getGraph();
+  const auto nodeIds = collectNodeIds(graph);
+  if (nodeIds.size() < 2) {
+    std::cerr << "Map graph needs at least two nodes\n";
+    return 1;
+  }
+
+  const long long startId = nodeIds.front();
+  const long long goalId = nodeIds.back();
+
+  auto route = AStar::findPath(graph, startId, goalId);
+  if (!route) {
+    std::cerr << "No route found between nodes " << startId << " and " << goalId
+              << '\n';
+    return 1;
+  }
+
+  std::cout << "Planned route with " << route->size() << " waypoints\n";
 
   FleetManager fleet;
-
-  Vehicle car1(1);
-  Vehicle car2(2);
-  Vehicle car3(3);
-  car1.setDestination({100, 100});
-  car2.setDestination({-100, 50});
-  car3.setDestination({50, -100});
-
-  car1.setInitialPosition({0, 0});
-  car2.setInitialPosition({20, 20});
-  car3.setInitialPosition({-20, -20});
-
-  fleet.addVehicle(car1);
-  fleet.addVehicle(car2);
-  fleet.addVehicle(car3);
+  Vehicle car(1);
+  car.setRoute(*route, graph);
+  fleet.addVehicle(car);
 
   Logger logger;
 
   while (true) {
-
-    fleet.update(0.1);
+    fleet.update(0.1, graph);
 
     for (auto vehicle : fleet.getVehicles()) {
-
-      VehicleState state = vehicle.getState();
+      const VehicleState state = vehicle.getState();
       logger.log(state);
-      auto sensorData = vehicle.sensor.readSensors(state.position);
 
-      std::cout << "Vehicle " << state.id
+      std::cout << "Vehicle " << state.id << " lat=" << state.lat
+                << " lon=" << state.lon << " node=" << state.currentNode
+                << " remaining=" << state.remainingWaypoints
+                << " status=" << state.status << '\n';
 
-                << " Position: " << state.position.x << ", " << state.position.y
-                << std::endl;
-
-      std::cout << "Sensor " << sensorData.gps_x << ", " << sensorData.gps_y
-                << std::endl;
-      std::cout << "Obstacle " << sensorData.obstacle_distance << std::endl;
+      if (state.status == "arrived") {
+        std::cout << "Vehicle reached destination\n";
+        return 0;
+      }
     }
+
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
-  return 0;
 }

@@ -1,14 +1,17 @@
 #pragma once
 
-#include "RoadGraph.h"
+#include "Graph.h"
 #include <string>
 
 class OSMParser {
 public:
   bool load(const std::string &filename);
 
-  const RoadGraph &getGraph() const;
+  const Graph &getGraph() const { return graph; }
 
 private:
-  RoadGraph graph;
+  bool isDrivableHighway(const char *highwayType) const;
+  double parseSpeedLimit(const char *maxspeed) const;
+
+  Graph graph;
 };

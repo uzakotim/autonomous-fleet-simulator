@@ -1,8 +1,7 @@
 #pragma once
 
 struct Node {
-  long id;
-
-  double latitude;
-  double longitude;
+  long long id;
+  double lat;
+  double lon;
 };

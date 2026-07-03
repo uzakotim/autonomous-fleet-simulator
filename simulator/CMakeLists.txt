@@ -1,37 +1,57 @@
-# 1. Set the minimum CMake version required to build the project
 cmake_minimum_required(VERSION 3.15)
 
-# 2. Define the project name and its programming language
 project(simulator LANGUAGES CXX)
 
-# 3. Specify the C++ standard to use (e.g., C++17)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-find_package(tinyxml2 REQUIRED)
 
-target_link_libraries(simulator
-    PRIVATE
-    tinyxml2::tinyxml2
+include(FetchContent)
+
+FetchContent_Declare(
+  tinyxml2
+  GIT_REPOSITORY https://github.com/leethomason/tinyxml2.git
+  GIT_TAG 10.0.0
 )
+FetchContent_MakeAvailable(tinyxml2)
 
-# 4. Create an executable target from your source code
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG v3.5.4
+)
+FetchContent_MakeAvailable(Catch2)
+
 add_executable(
-	simulator 
-	src/main.cpp 
-	src/Vehicle.cpp 
-	src/Vehicle.h 
-	src/State.h
-    src/Controller.cpp
-    src/Controller.h
-    src/Logger.cpp
-    src/Logger.h
-    src/Sensor.cpp
-    src/Sensor.h
-    src/FleetManager.cpp
-    src/FleetManager.h
-    src/CollisionManager.cpp
-    src/CollisionManager.h
-    src/Map.h
-    src/Point.h
-
+  simulator
+  src/main.cpp
+  src/Vehicle.cpp
+  src/Controller.cpp
+  src/Logger.cpp
+  src/Sensor.cpp
+  src/FleetManager.cpp
+  src/CollisionManager.cpp
+  src/map/Graph.cpp
+  src/map/OSMParser.cpp
 )
+
+target_include_directories(simulator PRIVATE src src/map)
+
+target_link_libraries(simulator PRIVATE tinyxml2::tinyxml2)
+
+add_executable(
+  simulator_tests
+  src/tests/graph_test.cpp
+  src/tests/astar_test.cpp
+  src/tests/route_follower_test.cpp
+  src/map/Graph.cpp
+  src/map/OSMParser.cpp
+  src/Vehicle.cpp
+  src/Controller.cpp
+  src/Sensor.cpp
+)
+
+target_include_directories(simulator_tests PRIVATE src src/map)
+target_link_libraries(simulator_tests PRIVATE tinyxml2::tinyxml2 Catch2::Catch2WithMain)
+
+enable_testing()
+add_test(NAME simulator_tests COMMAND simulator_tests)

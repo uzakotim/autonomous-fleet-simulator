@@ -1,12 +1,8 @@
 #pragma once
 
 struct Edge {
-
-  long from;
-
-  long to;
-
-  double distance;
-
+  long long from;
+  long long to;
+  double length;
   double speedLimit;
 };

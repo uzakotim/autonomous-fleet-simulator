@@ -1,9 +1,12 @@
 #pragma once
 
-#include "Vehicle.h"
+#include "State.h"
 
 class Logger {
 
 public:
-  void log(VehicleState state);
+  void log(const VehicleState &state);
+
+private:
+  bool headerWritten = false;
 };

@@ -4,17 +4,17 @@
 
 void FleetManager::addVehicle(Vehicle vehicle) { vehicles.push_back(vehicle); }
 
-void FleetManager::update(double dt) {
+void FleetManager::update(double dt, const Graph &graph) {
 
   for (auto &vehicle : vehicles) {
-    vehicle.update(dt);
+    vehicle.update(dt, graph);
   }
 
   CollisionManager detector;
 
-  for (int i = 0; i < vehicles.size(); i++) {
+  for (int i = 0; i < static_cast<int>(vehicles.size()); i++) {
 
-    for (int j = i + 1; j < vehicles.size(); j++) {
+    for (int j = i + 1; j < static_cast<int>(vehicles.size()); j++) {
 
       if (detector.checkCollision(vehicles[i].getState(),
                                   vehicles[j].getState())) {
