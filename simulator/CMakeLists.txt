@@ -7,6 +7,12 @@ project(simulator LANGUAGES CXX)
 # 3. Specify the C++ standard to use (e.g., C++17)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(tinyxml2 REQUIRED)
+
+target_link_libraries(simulator
+    PRIVATE
+    tinyxml2::tinyxml2
+)
 
 # 4. Create an executable target from your source code
 add_executable(
