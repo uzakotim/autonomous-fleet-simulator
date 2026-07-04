@@ -3,6 +3,9 @@ import asyncio
 import json
 
 from app.schemas.telemetry import Telemetry
+from app.services.telemetry_service import TelemetryService
+
+telemetry_service = TelemetryService()
 
 class TelemetryProtocol(asyncio.DatagramProtocol):
 
@@ -14,7 +17,7 @@ class TelemetryProtocol(asyncio.DatagramProtocol):
 
             telemetry = Telemetry(**payload)
 
-            print(telemetry)
+            telemetry_service.process(telemetry)
 
         except Exception as e:
 
