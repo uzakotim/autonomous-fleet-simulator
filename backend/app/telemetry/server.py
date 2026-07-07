@@ -6,13 +6,12 @@ from app.schemas.telemetry import Telemetry
 from app.services.telemetry_service import TelemetryService
 from app.cache.redis_cache import RedisCache
 from app.repositories.telemetry_repository import TelemetryRepository
+from app.database.unit_of_work import UnitOfWork
 
 cache = RedisCache()
-repository = TelemetryRepository()  
-telemetry_service = TelemetryService(
-    cache,
-    repository
-)
+
+uow = UnitOfWork()
+telemetry_service = TelemetryService(cache, uow) 
 
 class TelemetryProtocol(asyncio.DatagramProtocol):
 

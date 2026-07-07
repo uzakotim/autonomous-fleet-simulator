@@ -12,3 +12,5 @@ class Telemetry(BaseModel):
     speed: float
 
     heading: float
+    
+    battery: float

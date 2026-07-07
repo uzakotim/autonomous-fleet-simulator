@@ -4,23 +4,23 @@ from app.logger import logger
 
 class TelemetryService:
 
-    def __init__(self, cache,repository):
+    def __init__(self, cache, uow):
         self.cache = cache
-        self.repository = repository
+        self.uow = uow
 
     def process(self, telemetry):
 
         print("TelemetryService called!")
-        self.cache.update_vehicle(telemetry)
-
-        self.repository.save(telemetry)
-
-        logger.info(
-
-            f"Vehicle {telemetry.vehicle_id} processed."
-
-        )
-        print("Saved to repository!")
+        try:
+            self.cache.update_vehicle(telemetry)
+            self.uow.telemetry.save(telemetry)
+            self.uow.commit()
+        except Exception:
+            self.uow.rollback()
+            raise
+        finally:
+            self.uow.reset()
+        logger.info(f"Vehicle {telemetry.vehicle_id} processed.")
         #
         # Phase 3.6
         # websocket.broadcast(telemetry)
