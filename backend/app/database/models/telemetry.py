@@ -25,6 +25,8 @@ class TelemetryRecord(Base):
     speed: Mapped[float]
 
     heading: Mapped[float]
+    
+    battery: Mapped[float] = mapped_column(default=100)
 
     timestamp: Mapped[datetime] = mapped_column(
         DateTime,
