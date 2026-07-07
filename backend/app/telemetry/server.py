@@ -5,9 +5,14 @@ import json
 from app.schemas.telemetry import Telemetry
 from app.services.telemetry_service import TelemetryService
 from app.cache.redis_cache import RedisCache
+from app.repositories.telemetry_repository import TelemetryRepository
 
 cache = RedisCache()
-telemetry_service = TelemetryService(cache)
+repository = TelemetryRepository()  
+telemetry_service = TelemetryService(
+    cache,
+    repository
+)
 
 class TelemetryProtocol(asyncio.DatagramProtocol):
 

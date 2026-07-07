@@ -13,6 +13,8 @@ class Settings(BaseSettings):
 
     UDP_PORT: int = 5005
 
+    DATABASE_URL: str = "postgresql://fleet:fleet@localhost:5432/fleetdb"
+
     class Config:
         env_file = ".env"
 

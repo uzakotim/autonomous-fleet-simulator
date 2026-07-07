@@ -4,6 +4,10 @@ from app.config import settings
 
 from contextlib import asynccontextmanager
 
+# Must be imported before any DB interaction so all models are registered
+# with Base.metadata and FK references (e.g. telemetry -> vehicles) can resolve.
+import app.database.models  # noqa: F401
+
 from app.telemetry.server import start_udp_server
 
 
