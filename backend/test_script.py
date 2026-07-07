@@ -8,7 +8,7 @@ packet = {
     "x": 10,
     "y": 15,
     "speed": 8,
-    "heading": 90
+    "heading": 180
 }
 
 sock.sendto(

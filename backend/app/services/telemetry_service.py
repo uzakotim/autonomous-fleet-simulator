@@ -1,21 +1,18 @@
-from app.schemas.telemetry import Telemetry
 from app.logger import logger
 
 
 class TelemetryService:
-    """
-    Handles validated telemetry.
 
-    The UDP layer should never contain business logic.
-    """
+    def __init__(self, cache):
+        self.cache = cache
 
-    def process(self, telemetry: Telemetry) -> None:
+
+    def process(self, telemetry):
+
+        self.cache.update_vehicle(telemetry)
 
         logger.info(
-            f" Vehicle {telemetry.vehicle_id} | "
-            f"x={telemetry.x:.2f} | "
-            f"y={telemetry.y:.2f} | "
-            f"speed={telemetry.speed:.2f}\n"
+            f"Vehicle {telemetry.vehicle_id} updated."
         )
 
         #

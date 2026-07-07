@@ -4,8 +4,10 @@ import json
 
 from app.schemas.telemetry import Telemetry
 from app.services.telemetry_service import TelemetryService
+from app.cache.redis_cache import RedisCache
 
-telemetry_service = TelemetryService()
+cache = RedisCache()
+telemetry_service = TelemetryService(cache)
 
 class TelemetryProtocol(asyncio.DatagramProtocol):
 
@@ -20,9 +22,7 @@ class TelemetryProtocol(asyncio.DatagramProtocol):
             telemetry_service.process(telemetry)
 
         except Exception as e:
-
             print(e)
-
 
 
 async def start_udp_server(port: int):
