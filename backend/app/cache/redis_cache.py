@@ -21,7 +21,8 @@ class RedisCache:
 
         client.set(
             key,
-            json.dumps(payload)
+            json.dumps(payload),
+            ex=30
         )
 
 
