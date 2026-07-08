@@ -2,7 +2,7 @@ import asyncio
 
 import json
 
-from app.schemas.telemetry import TelemetryResponse
+from app.schemas.telemetry import Telemetry
 from app.services.telemetry_service import TelemetryService
 from app.cache.redis_cache import RedisCache
 from app.repositories.telemetry_repository import TelemetryRepository
@@ -21,7 +21,7 @@ class TelemetryProtocol(asyncio.DatagramProtocol):
 
             payload = json.loads(data.decode())
 
-            telemetry = TelemetryResponse(**payload)
+            telemetry = Telemetry(**payload)
 
             telemetry_service.process(telemetry)
 

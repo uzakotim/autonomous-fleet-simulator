@@ -1,4 +1,4 @@
-from app import logger
+from app.logger import logger
 from app.cache.redis_cache import RedisCache
 from app.database.unit_of_work import UnitOfWork
 from app.services.base_service import BaseService
@@ -68,14 +68,21 @@ class FleetService(BaseService):
         """
 
         registered = self.uow.vehicle.get_all()
-        active = self.cache.get_all_vehicles()
+
+        registered_ids = {
+            vehicle.id
+            for vehicle in registered
+        }
+
+        active = [
+            vehicle
+            for vehicle in self.cache.get_all_vehicles()
+            if vehicle["vehicle_id"] in registered_ids
+        ]
 
         total = len(registered)
 
-        online_ids = {
-            vehicle["vehicle_id"]
-            for vehicle in active
-        }
+        online = len(active)
 
         moving = sum(
             1
@@ -87,8 +94,8 @@ class FleetService(BaseService):
 
         status = {
             "total": total,
-            "online": len(online_ids),
-            "offline": total - len(online_ids),
+            "online": online,
+            "offline": total - online,
             "moving": moving,
             "stopped": stopped,
         }

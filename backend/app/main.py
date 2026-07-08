@@ -11,6 +11,9 @@ import app.database.models  # noqa: F401
 from app.telemetry.server import start_udp_server
 
 
+from app.api.fleet import router as fleet_router
+
+
 @asynccontextmanager
 async def lifespan(app):
 
@@ -31,8 +34,18 @@ app = FastAPI(
     lifespan=lifespan
 
 )
+app.include_router(fleet_router)
 
 
+@app.get("/")
+def root():
+    return {
+        "service": "Autonomous Fleet Backend",
+        "version": "0.1",
+        "docs": "/docs",
+        "health": "/health",
+    }
+    
 @app.get("/health")
 
 def health():

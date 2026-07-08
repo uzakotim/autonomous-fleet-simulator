@@ -4,7 +4,7 @@ import json
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 packet = {
-    "vehicle_id": 10,
+    "vehicle_id": 1,
     "x": 10,
     "y": 15,
     "speed": 8,
