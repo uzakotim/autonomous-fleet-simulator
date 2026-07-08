@@ -15,6 +15,8 @@ class RedisCache:
             "y": telemetry.y,
             "speed": telemetry.speed,
             "heading": telemetry.heading,
+            "battery": telemetry.battery,
+            "timestamp": telemetry.timestamp.isoformat(),
         }
 
         client.set(
@@ -27,4 +29,22 @@ class RedisCache:
 
         key = f"vehicle:{vehicle_id}"
 
-        return client.get(key)
+        data = client.get(key)
+
+        if data is None:
+            return None
+
+        return json.loads(data)
+
+    def get_all_vehicles(self):
+
+        vehicles = []
+
+        for key in client.scan_iter("vehicle:*"):
+
+            data = client.get(key)
+
+            if data:
+                vehicles.append(json.loads(data))
+
+        return vehicles

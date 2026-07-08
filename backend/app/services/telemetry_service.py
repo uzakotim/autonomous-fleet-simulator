@@ -1,12 +1,12 @@
 from app.repositories import telemetry_repository
 from app.logger import logger
+from app.services.base_service import BaseService
 
 
-class TelemetryService:
+class TelemetryService(BaseService):
 
     def __init__(self, cache, uow):
-        self.cache = cache
-        self.uow = uow
+        super().__init__(cache, uow)
 
     def process(self, telemetry):
 

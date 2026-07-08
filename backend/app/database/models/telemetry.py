@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import Integer
 from sqlalchemy import Float
@@ -25,10 +25,10 @@ class TelemetryRecord(Base):
     speed: Mapped[float]
 
     heading: Mapped[float]
-    
+
     battery: Mapped[float] = mapped_column(default=100)
 
     timestamp: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
     )

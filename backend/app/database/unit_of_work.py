@@ -1,13 +1,17 @@
 from app.database.session import SessionLocal
 
 from app.repositories.telemetry_repository import TelemetryRepository
+from app.repositories.vehicle_repository import VehicleRepository
 
 
 class UnitOfWork:
 
     def __init__(self):
+
         self.session = SessionLocal()
+
         self.telemetry = TelemetryRepository(self.session)
+        self.vehicle = VehicleRepository(self.session)
 
     def commit(self):
         self.session.commit()
@@ -19,7 +23,10 @@ class UnitOfWork:
         self.session.close()
 
     def reset(self):
-        """Close the current session and open a fresh one."""
+
         self.session.close()
+
         self.session = SessionLocal()
+
         self.telemetry = TelemetryRepository(self.session)
+        self.vehicle = VehicleRepository(self.session)
