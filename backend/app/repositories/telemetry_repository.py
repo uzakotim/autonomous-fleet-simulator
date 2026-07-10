@@ -17,6 +17,7 @@ class TelemetryRepository:
             heading=telemetry.heading,
             battery=telemetry.battery,
             timestamp=telemetry.timestamp,
+            status=telemetry.status,
         )
 
         self.session.add(record)

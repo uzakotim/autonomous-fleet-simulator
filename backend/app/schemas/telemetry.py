@@ -22,6 +22,7 @@ class Telemetry(BaseModel):
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
+    status:str
 
 
 class TelemetryResponse(BaseModel):
@@ -43,6 +44,7 @@ class TelemetryResponse(BaseModel):
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
+    status: str
 
 class VehicleStatusResponse(BaseModel):
 
@@ -57,3 +59,4 @@ class VehicleStatusResponse(BaseModel):
     battery: float
 
     timestamp: str
+    status: str

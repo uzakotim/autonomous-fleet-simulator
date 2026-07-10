@@ -6,6 +6,9 @@ services:
 
     ports:
       - "8000:8000"
+      - "5005:5005/udp"
+    environment:
+      DATABASE_URL: postgresql://fleet:fleet@postgres:5432/fleetdb
 
   frontend:
     build:

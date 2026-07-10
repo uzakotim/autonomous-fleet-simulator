@@ -39,6 +39,7 @@ add_executable(
   src/CollisionManager.cpp
   src/map/Graph.cpp
   src/map/OSMParser.cpp
+  src/network/UdpClient.cpp
 )
 
 target_include_directories(simulator PRIVATE src src/map)

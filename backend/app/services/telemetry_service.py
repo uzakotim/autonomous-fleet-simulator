@@ -9,7 +9,7 @@ class TelemetryService(BaseService):
         super().__init__(cache, uow)
         self.broadcaster = broadcaster
 
-    def process(self, telemetry):
+    async def process(self, telemetry):
 
         print("TelemetryService called!")
         try:
@@ -23,4 +23,4 @@ class TelemetryService(BaseService):
             self.uow.reset()
         
         logger.info(f"Vehicle {telemetry.vehicle_id} processed.")
-        self.broadcaster.telemetry(telemetry)
+        await self.broadcaster.telemetry(telemetry)

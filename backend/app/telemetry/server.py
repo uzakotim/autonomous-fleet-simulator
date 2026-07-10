@@ -8,6 +8,8 @@ from app.cache.redis_cache import RedisCache
 from app.repositories.telemetry_repository import TelemetryRepository
 from app.database.unit_of_work import UnitOfWork
 from app.websocket.broadcaster import broadcaster
+import traceback
+
 
 cache = RedisCache()
 
@@ -25,10 +27,20 @@ class TelemetryProtocol(asyncio.DatagramProtocol):
 
             telemetry = Telemetry(**payload)
 
-            telemetry_service.process(telemetry)
+            task = asyncio.create_task(
+                telemetry_service.process(telemetry)
+            )
+
+            def handle_error(fut):
+                try:
+                    fut.result()
+                except Exception as e:
+                    traceback.print_exc()
+
+            task.add_done_callback(handle_error)
 
         except Exception as e:
-            print(e)
+           traceback.print_exc()
 
 
 async def start_udp_server(port: int):

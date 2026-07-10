@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from sqlalchemy import Integer
 from sqlalchemy import Float
 from sqlalchemy import DateTime
+from sqlalchemy import String
 
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import Mapped
@@ -31,3 +32,6 @@ class TelemetryRecord(Base):
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
     )
+    status : Mapped[str] = mapped_column(String(32), nullable=False, server_default="unknown")
+
+    
