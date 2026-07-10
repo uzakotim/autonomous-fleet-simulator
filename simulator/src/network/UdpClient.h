@@ -3,6 +3,7 @@
 #include <string>
 
 #include "../State.h"
+#include <arpa/inet.h>
 
 class UdpClient {
 public:

@@ -32,7 +32,9 @@ bool UdpClient::sendTelemetry(const VehicleState &state) {
 
       {"heading", state.heading},
 
-      {"status", state.status}
+      {"status", state.status},
+
+      {"battery", state.battery}
 
   };
 
