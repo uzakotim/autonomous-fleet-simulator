@@ -11,8 +11,8 @@ class TelemetryRepository:
     def save(self, telemetry):
         record = TelemetryRecord(
             vehicle_id=telemetry.vehicle_id,
-            x=telemetry.x,
-            y=telemetry.y,
+            latitude=telemetry.latitude,
+            longitude=telemetry.longitude,
             speed=telemetry.speed,
             heading=telemetry.heading,
             battery=telemetry.battery,

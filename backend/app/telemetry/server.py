@@ -21,6 +21,7 @@ class TelemetryProtocol(asyncio.DatagramProtocol):
         try:
 
             payload = json.loads(data.decode())
+            print(payload)
 
             telemetry = Telemetry(**payload)
 

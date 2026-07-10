@@ -2,6 +2,7 @@
 #include "FleetManager.h"
 #include "Logger.h"
 #include "OSMParser.h"
+#include "network/UdpClient.h"
 
 #include <chrono>
 #include <iostream>
@@ -22,6 +23,9 @@ std::vector<long long> collectNodeIds(const Graph &graph) {
 } // namespace
 
 int main(int argc, char **argv) {
+
+  UdpClient udp("127.0.0.1", 5005);
+
   const std::string mapPath =
       argc > 1 ? argv[1] : "assets/maps/sample_city.osm";
 
@@ -62,6 +66,7 @@ int main(int argc, char **argv) {
     for (auto vehicle : fleet.getVehicles()) {
       const VehicleState state = vehicle.getState();
       logger.log(state);
+      udp.sendTelemetry(state);
 
       std::cout << "Vehicle " << state.id << " lat=" << state.lat
                 << " lon=" << state.lon << " node=" << state.currentNode

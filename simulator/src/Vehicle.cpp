@@ -109,6 +109,10 @@ void Vehicle::update(double dt, const Graph &graph) {
 
   syncPositionFromLatLon();
   state.status = "moving";
+  state.battery -= 0.00001;
+  if (state.battery < 0) {
+    state.battery = 0;
+  }
 }
 
 void Vehicle::stop() {

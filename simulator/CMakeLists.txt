@@ -8,6 +8,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
 FetchContent_Declare(
+    json
+    URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+)
+
+FetchContent_MakeAvailable(json)
+
+FetchContent_Declare(
   tinyxml2
   GIT_REPOSITORY https://github.com/leethomason/tinyxml2.git
   GIT_TAG 10.0.0
@@ -36,7 +43,7 @@ add_executable(
 
 target_include_directories(simulator PRIVATE src src/map)
 
-target_link_libraries(simulator PRIVATE tinyxml2::tinyxml2)
+target_link_libraries(simulator PRIVATE tinyxml2::tinyxml2 nlohmann_json::nlohmann_json)
 
 add_executable(
   simulator_tests
@@ -51,7 +58,7 @@ add_executable(
 )
 
 target_include_directories(simulator_tests PRIVATE src src/map)
-target_link_libraries(simulator_tests PRIVATE tinyxml2::tinyxml2 Catch2::Catch2WithMain)
+target_link_libraries(simulator_tests PRIVATE tinyxml2::tinyxml2 Catch2::Catch2WithMain nlohmann_json::nlohmann_json)
 
 enable_testing()
 add_test(NAME simulator_tests COMMAND simulator_tests)

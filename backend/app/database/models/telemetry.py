@@ -18,9 +18,8 @@ class TelemetryRecord(Base):
 
     vehicle_id: Mapped[int] = mapped_column(Integer)
 
-    x: Mapped[float]
-
-    y: Mapped[float]
+    latitude: Mapped[float]
+    longitude: Mapped[float]
 
     speed: Mapped[float]
 

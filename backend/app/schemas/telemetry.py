@@ -9,15 +9,15 @@ class Telemetry(BaseModel):
 
     vehicle_id: int
 
-    x: float
-
-    y: float
+    latitude: float
+    longitude: float
 
     speed: float
 
     heading: float
 
     battery: float
+
 
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
@@ -31,9 +31,8 @@ class TelemetryResponse(BaseModel):
 
     vehicle_id: int
 
-    x: float
-
-    y: float
+    latitude: float
+    longitude: float
 
     speed: float
 
@@ -49,8 +48,8 @@ class VehicleStatusResponse(BaseModel):
 
     vehicle_id: int
 
-    x: float
-    y: float
+    latitude: float
+    longitude: float
 
     speed: float
     heading: float

@@ -11,16 +11,16 @@ class FleetBroadcaster:
 
                 "vehicle_id": telemetry.vehicle_id,
 
-                "x": telemetry.x,
+                "latitude": telemetry.latitude,
 
-                "y": telemetry.y,
+                "longitude": telemetry.longitude,
 
                 "speed": telemetry.speed,
 
                 "heading": telemetry.heading,
 
                 "status": telemetry.status,
-                
+
                 "battery": telemetry.battery
             }
         )

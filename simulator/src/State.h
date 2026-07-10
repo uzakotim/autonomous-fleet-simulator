@@ -18,6 +18,7 @@ struct VehicleState {
   double heading;
 
   std::string status;
+  double battery = 100.0;
 
   long long currentNode = -1;
   size_t remainingWaypoints = 0;
