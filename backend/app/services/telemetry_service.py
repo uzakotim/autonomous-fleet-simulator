@@ -5,8 +5,9 @@ from app.services.base_service import BaseService
 
 class TelemetryService(BaseService):
 
-    def __init__(self, cache, uow):
+    def __init__(self, cache, uow, broadcaster):
         super().__init__(cache, uow)
+        self.broadcaster = broadcaster
 
     def process(self, telemetry):
 
@@ -20,8 +21,6 @@ class TelemetryService(BaseService):
             raise
         finally:
             self.uow.reset()
+        
         logger.info(f"Vehicle {telemetry.vehicle_id} processed.")
-        #
-        # Phase 3.6
-        # websocket.broadcast(telemetry)
-        #
+        self.broadcaster.telemetry(telemetry)

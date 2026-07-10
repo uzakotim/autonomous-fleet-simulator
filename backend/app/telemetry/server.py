@@ -7,11 +7,12 @@ from app.services.telemetry_service import TelemetryService
 from app.cache.redis_cache import RedisCache
 from app.repositories.telemetry_repository import TelemetryRepository
 from app.database.unit_of_work import UnitOfWork
+from app.websocket.broadcaster import broadcaster
 
 cache = RedisCache()
 
 uow = UnitOfWork()
-telemetry_service = TelemetryService(cache, uow) 
+telemetry_service = TelemetryService(cache, uow, broadcaster) 
 
 class TelemetryProtocol(asyncio.DatagramProtocol):
 

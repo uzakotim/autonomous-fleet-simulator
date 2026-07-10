@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+    <h2>Fleet Monitor</h2>
+
+    <pre id="output"></pre>
+
+    <script>
+
+        const output = document.getElementById("output");
+
+        const ws = new WebSocket("ws://localhost:8000/ws/fleet");
+
+        ws.onopen = () => {
+
+            console.log("Connected");
+
+            //
+            // keepalive
+            //
+            setInterval(() => {
+
+                ws.send("ping");
+
+            }, 5000);
+
+        };
+
+        ws.onmessage = (event) => {
+
+            output.textContent += event.data + "\n";
+
+        };
+
+    </script>
+
+</body>
+
+</html>

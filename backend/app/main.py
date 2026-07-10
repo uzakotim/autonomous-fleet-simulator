@@ -13,6 +13,8 @@ from app.telemetry.server import start_udp_server
 
 from app.api.fleet import router as fleet_router
 
+from app.websocket.router import router as websocket_router
+
 
 @asynccontextmanager
 async def lifespan(app):
@@ -34,6 +36,7 @@ app = FastAPI(
     lifespan=lifespan
 
 )
+app.include_router(websocket_router)
 app.include_router(fleet_router)
 
 
