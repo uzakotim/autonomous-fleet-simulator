@@ -11,15 +11,24 @@ class UDPCommandClient:
     def __init__(self):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    def send(
-        self,
-        host: str,
-        port: int,
-        payload: dict[str, Any],
-    ) -> None:
-        message = json.dumps(payload).encode("utf-8")
-        self._socket.sendto(message, (host, port))
+    def send(self, host, port, payload):
 
+        print(f"[UDP] Sending to {host}:{port}")
+
+        print(f"[UDP] Payload: {payload}")
+
+        message = json.dumps(payload).encode("utf-8")
+
+        bytes_sent = self._socket.sendto(
+
+            message,
+
+            (host, port),
+
+        )
+
+        print(f"[UDP] Sent {bytes_sent} bytes")
+        
     def stop(
         self,
         host: str,

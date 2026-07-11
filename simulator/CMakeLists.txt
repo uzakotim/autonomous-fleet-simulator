@@ -40,6 +40,7 @@ add_executable(
   src/map/Graph.cpp
   src/map/OSMParser.cpp
   src/network/UdpClient.cpp
+  src/network/UdpCommandListener.cpp
 )
 
 target_include_directories(simulator PRIVATE src src/map)

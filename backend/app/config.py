@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = "postgresql://fleet:fleet@localhost:5432/fleetdb"
     
-    SIMULATOR_HOST: str = "127.0.0.1"
+    SIMULATOR_HOST: str = "host.docker.internal"
     
     SIMULATOR_COMMAND_PORT: int = 5006
     

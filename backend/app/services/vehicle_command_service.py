@@ -6,7 +6,7 @@ class VehicleCommandService:
 
     def __init__(self, udp_client):
         self.client = udp_client
-
+        
     def stop(self):
         self.client.stop(
             settings.SIMULATOR_HOST,

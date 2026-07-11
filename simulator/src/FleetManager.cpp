@@ -1,6 +1,9 @@
 #include "FleetManager.h"
 #include "CollisionManager.h"
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 void FleetManager::addVehicle(Vehicle vehicle) { vehicles.push_back(vehicle); }
 
@@ -27,4 +30,27 @@ void FleetManager::update(double dt, const Graph &graph) {
     }
   }
 }
-std::vector<Vehicle> FleetManager::getVehicles() { return vehicles; }
+const std::vector<Vehicle> &FleetManager::getVehicles() const {
+  return vehicles;
+}
+
+void FleetManager::handleCommand(const std::string &message) {
+  json cmd = json::parse(message);
+
+  std::string command = cmd["command"];
+
+  std::cout << "Received command: " << command << std::endl;
+
+  if (command == "stop") {
+    std::cout << "Stop requested\n";
+  }
+
+  if (command == "resume") {
+    std::cout << "Resume requested\n";
+  }
+
+  if (command == "reroute") {
+    std::cout << "Destination " << cmd["latitude"] << ", " << cmd["longitude"]
+              << std::endl;
+  }
+}

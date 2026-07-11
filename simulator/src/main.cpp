@@ -54,6 +54,19 @@ int main(int argc, char **argv) {
   std::cout << "Planned route with " << route->size() << " waypoints\n";
 
   FleetManager fleet;
+
+  UdpCommandListener commandListener(
+
+      5006,
+
+      [&fleet](const std::string &message)
+
+      { fleet.handleCommand(message); }
+
+  );
+
+  commandListener.start();
+
   Vehicle car(1);
   car.setRoute(*route, graph);
   fleet.addVehicle(car);
@@ -62,8 +75,8 @@ int main(int argc, char **argv) {
 
   while (true) {
     fleet.update(0.1, graph);
-
-    for (auto vehicle : fleet.getVehicles()) {
+    const auto &vehicles = fleet.getVehicles();
+    for (auto &vehicle : vehicles) {
       const VehicleState state = vehicle.getState();
       logger.log(state);
       udp.sendTelemetry(state);
@@ -75,6 +88,7 @@ int main(int argc, char **argv) {
 
       if (state.status == "arrived") {
         std::cout << "Vehicle reached destination\n";
+        commandListener.stop();
         return 0;
       }
     }
