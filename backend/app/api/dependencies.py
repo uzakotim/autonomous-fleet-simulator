@@ -27,3 +27,13 @@ def get_fleet_service(
         cache=get_cache(),
         uow=uow,
     )
+
+from app.network.udp_command_client import UDPCommandClient
+from app.services.vehicle_command_service import VehicleCommandService
+
+
+def get_vehicle_command_service():
+
+    udp_client = UDPCommandClient()
+
+    return VehicleCommandService(udp_client)

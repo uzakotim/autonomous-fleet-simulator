@@ -34,9 +34,11 @@ bool UdpClient::sendTelemetry(const VehicleState &state) {
 
       {"status", state.status},
 
-      {"battery", state.battery}
+      {"battery", state.battery},
 
-  };
+      {"host", "127.0.0.1"},
+
+      {"command_port", 5005}};
 
   std::string payload = packet.dump();
 

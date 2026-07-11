@@ -15,6 +15,7 @@ from app.api.fleet import router as fleet_router
 
 from app.websocket.router import router as websocket_router
 
+from app.network.router import router as network_router
 
 @asynccontextmanager
 async def lifespan(app):
@@ -38,7 +39,7 @@ app = FastAPI(
 )
 app.include_router(websocket_router)
 app.include_router(fleet_router)
-
+app.include_router(network_router)
 
 @app.get("/")
 def root():

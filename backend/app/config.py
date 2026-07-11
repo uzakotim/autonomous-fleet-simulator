@@ -14,7 +14,11 @@ class Settings(BaseSettings):
     UDP_PORT: int = 5005
 
     DATABASE_URL: str = "postgresql://fleet:fleet@localhost:5432/fleetdb"
-
+    
+    SIMULATOR_HOST: str = "127.0.0.1"
+    
+    SIMULATOR_COMMAND_PORT: int = 5006
+    
     class Config:
         env_file = ".env"
 
